@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling the Python code...
+      - apt-get update -y
+      - apt-get -y install zip
+      - pip install paramiko -t .
+  post_build:
+    commands:
+      - zip -r solodev-runer.zip .
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - 'solodev-runer.zip'
