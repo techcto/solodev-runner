@@ -94,9 +94,20 @@ class Solodev:
 
         print("Execute Heal Mongo Bash Script")
 
-    def updateDatabase(self):
-        print("Update Database")
+    def installSoftware(self):
+        print("Install Solodev")
+
+    def updateSoftware(self):
+        print("Update Solodev")
         commands = [
+            'rm -Rf '+self.install_dir+'/old',
+		    'mkdir '+self.install_dir+'/old',
+		    'mv '+self.install_dir+'/modules #{document_root}/#{software_name}/old/',
+		    'mv '+self.install_dir+'/core #{document_root}/#{software_name}/old/',
+		    'mv '+self.install_dir+'/composer.json #{document_root}/#{software_name}/old/',
+		    'mv '+self.install_dir+'/composer.lock #{document_root}/#{software_name}/old/',
+		    'mv '+self.install_dir+'/vendor #{document_root}/#{software_name}/old/',
+		    'rm -Rf '+self.install_dir+'/license.php',
             self.install_dir+'/core/update.php'
         ]
         for instance in self.instances:
