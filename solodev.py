@@ -96,6 +96,23 @@ class Solodev:
 
     def installSoftware(self):
         print("Install Solodev")
+        commands = [
+        'mv Solodev/modules Solodev/core  Solodev/license.php Solodev/composer.json Solodev/composer.lock Solodev/vendor '+self.install_dir,
+		'mv Solodev/core #{document_root}/#{software_name}/
+		'mv Solodev/license.php #{document_root}/#{software_name}/
+		'mv Solodev/composer.json #{document_root}/#{software_name}/
+		'mv Solodev/composer.lock #{document_root}/#{software_name}/
+		'mv Solodev/vendor #{document_root}/#{software_name}/
+		'mv #{document_root}/#{software_name}/core/solodevX/www/htaccess.txt #{document_root}/#{software_name}/core/solodevX/www/.htaccess
+            self.install_dir+'/core/update.php'
+        ]
+        for instance in self.instances:
+            try:
+                print("Login to Solodev instance and execute install script")
+                self.lambdautils.execute_cmd(instance['PublicIpAddress'], self.instance_user, commands)
+                break
+            except BaseException as e:
+                print(str(e))
 
     def updateSoftware(self):
         print("Update Solodev")
@@ -108,6 +125,8 @@ class Solodev:
 		    'mv '+self.install_dir+'/composer.lock #{document_root}/#{software_name}/old/',
 		    'mv '+self.install_dir+'/vendor #{document_root}/#{software_name}/old/',
 		    'rm -Rf '+self.install_dir+'/license.php',
+
+            
             self.install_dir+'/core/update.php'
         ]
         for instance in self.instances:
