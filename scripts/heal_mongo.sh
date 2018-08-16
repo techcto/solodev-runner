@@ -118,6 +118,3 @@ echo "$mongoconfig"
 if [ $BADHOSTS ] || [ $ADDHOSTS ]; then 
 	echo "$mongoconfig" | mongo --host $MONGOHOST
 fi
-
-#service mongod stop
-#service mongod start
