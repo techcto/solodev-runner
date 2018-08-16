@@ -20,11 +20,6 @@ def run(event, context):
     print(context)
     print(os.environ)  
 
-    # instance_user=os.environ['instance_user']
-    # FQDN=os.environ['FQDN']
-    # bucket=os.environ['bucket']
-    # cluster=os.environ['cluster']
-
     #Set Event Status
     awsasg.check_event_status(event, context)
 
@@ -103,8 +98,8 @@ def exit(awsasg):
     return True
 
 def retry(awsasg):
-    time.sleep(60)
-    status = awslambda.publish_sns_message('')
-    if status == False:
-        install(awsasg)
+    # time.sleep(60)
+    # status = awslambda.publish_sns_message('')
+    # if status == False:
+    #     install(awsasg)
     return True

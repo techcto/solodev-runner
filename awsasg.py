@@ -58,6 +58,7 @@ class AwsAsg:
         self.event = event
         self.context = context
         eventStatus = "TEST"
+        runStatus = "exit"
 
         try:
             snsTopicArn=event['Records'][0]['Sns']['TopicArn']
@@ -71,7 +72,6 @@ class AwsAsg:
         except BaseException as e:
             print(str(e))
 
-        runStatus = "exit"
         if (eventStatus == "SNS") or (eventStatus == "ASG"):
             self.snsTopicArn=event['Records'][0]['Sns']['TopicArn']
             self.snsSubject=event['Records'][0]['Sns']['Subject']

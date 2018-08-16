@@ -4,7 +4,7 @@ import lambdautils
 class Solodev:
 
     def __init__(self, instances, install_dir, cluster, instance_user):
-        print("Init Solodev Class")
+        print("Init Solodev class")
         self.s3Client = boto3.resource('s3')
         self.lambdautils = lambdautils.LambdaUtils()
         self.instances = instances
@@ -13,20 +13,20 @@ class Solodev:
         self.instance_user = instance_user
     
     def install(self):
-        print("Perform Fresh Install of Solodev")
-        print("Init Mongo Cluster")
+        print("Perform fresh install of Solodev")
+        print("Init Mongo cluster")
         self.initMongo()
-        print("Install Solodev Database")
-        self.updateDatabase()
+        print("Install Solodev")
+        self.updateSoftware()
 
     def update(self):
-        print("Existing Solodev: Update Cluster")
-        print("Backup Cluster")
+        print("Existing Solodev: Update cluster")
+        print("Backup cluster")
         self.backup()
-        print("Heal Mongo Cluster")
+        print("Heal Mongo cluster")
         self.healMongo()
-        print("Update Solodev Database")
-        self.updateDatabase()
+        print("Update Solodev")
+        self.updateSoftware()
 
     def generateConfig(self, database_name, database_host, database_user, database_password, mongo_host):
         with open('templates/Client_Settings.xml', 'r') as settings :
@@ -97,14 +97,12 @@ class Solodev:
     def installSoftware(self):
         print("Install Solodev")
         commands = [
-        'mv Solodev/modules Solodev/core  Solodev/license.php Solodev/composer.json Solodev/composer.lock Solodev/vendor '+self.install_dir,
-		'mv Solodev/core #{document_root}/#{software_name}/
-		'mv Solodev/license.php #{document_root}/#{software_name}/
-		'mv Solodev/composer.json #{document_root}/#{software_name}/
-		'mv Solodev/composer.lock #{document_root}/#{software_name}/
-		'mv Solodev/vendor #{document_root}/#{software_name}/
-		'mv #{document_root}/#{software_name}/core/solodevX/www/htaccess.txt #{document_root}/#{software_name}/core/solodevX/www/.htaccess
-            self.install_dir+'/core/update.php'
+        'mkdir -p '+self.install_dir+'/clients/solodev/Vhosts',
+        'mkdir -p '+self.install_dir+'/clients/solodev/s.Vhosts',
+        'mkdir -p '+self.install_dir+'/clients/solodev/Main',
+        'mv '+self.install_dir+'/core/aws/Client_Settings.xml '+self.install_dir+'/clients/solodev/Client_Settings.xml',
+		'mv '+self.install_dir+'/core/solodevX/www/htaccess.txt '+self.install_dir+'/core/solodevX/www/.htaccess',
+        self.install_dir+'/core/update.php >> /root/phpinstall.log'
         ]
         for instance in self.instances:
             try:
@@ -119,15 +117,13 @@ class Solodev:
         commands = [
             'rm -Rf '+self.install_dir+'/old',
 		    'mkdir '+self.install_dir+'/old',
-		    'mv '+self.install_dir+'/modules #{document_root}/#{software_name}/old/',
-		    'mv '+self.install_dir+'/core #{document_root}/#{software_name}/old/',
-		    'mv '+self.install_dir+'/composer.json #{document_root}/#{software_name}/old/',
-		    'mv '+self.install_dir+'/composer.lock #{document_root}/#{software_name}/old/',
-		    'mv '+self.install_dir+'/vendor #{document_root}/#{software_name}/old/',
+		    'mv '+self.install_dir+'/modules '+self.install_dir+'/old/',
+		    'mv '+self.install_dir+'/core '+self.install_dir+'/old/',
+		    'mv '+self.install_dir+'/composer.json '+self.install_dir+'/old/',
+		    'mv '+self.install_dir+'/composer.lock '+self.install_dir+'/old/',
+		    'mv '+self.install_dir+'/vendor '+self.install_dir+'/old/',
 		    'rm -Rf '+self.install_dir+'/license.php',
-
-            
-            self.install_dir+'/core/update.php'
+            self.install_dir+'/core/update.php >> /root/phpinstall.log'
         ]
         for instance in self.instances:
             try:

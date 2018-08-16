@@ -18,7 +18,7 @@ class AwsS3:
             path_prefix += '/'
 
         # check if 'Contents' key exist in response dict - if it exist it indicate the folder exists, otherwise response will be None.
-        response = s3Client.list_objects_v2(Bucket=bucket, Prefix=path_prefix).get('Contents')
+        response = self.s3Client.list_objects_v2(Bucket=bucket, Prefix=path_prefix).get('Contents')
 
         if response:
             return True
@@ -28,6 +28,7 @@ class AwsS3:
         try:
             self.s3Client.Object(bucket, key).load()
         except BaseException as e:
+            print(e)
             print("File " + key + " does not exist in bucket " + bucket)
             return False
         else:
