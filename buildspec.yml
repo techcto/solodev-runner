@@ -10,8 +10,8 @@ phases:
       - pip install paramiko -t .
   post_build:
     commands:
-      - zip -r solodev-runer.zip .
+      - zip -r solodev-runner.zip .
       - echo Build completed on `date`
 artifacts:
   files:
-    - 'solodev-runer.zip'
+    - 'solodev-runner.zip'
